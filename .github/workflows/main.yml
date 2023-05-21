@@ -22,14 +22,19 @@ jobs:
       with:
         node-version: 19.6.0
     - name: Install dependencies
+      working-directory: frontend
       run: npm install
     - name: Lint
+      working-directory: frontend
       run: npm run lint
     - name: Build
+      working-directory: frontend
       run: npm run build -- --prod
     - name: Test
+      working-directory: frontend
       run: npm test -- --configuration=ci
     - name: E2E
+      working-directory: frontend
       run: npm run e2e -- --configuration=ci
       
   backend-build:
