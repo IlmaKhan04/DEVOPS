@@ -29,10 +29,10 @@ jobs:
       run: npm run build -- --prod
     - name: Test
       working-directory: frontend
-      run: npm test -- --configuration=ci
+      run: npm test
     - name: E2E
       working-directory: frontend
-      run: npm run e2e -- --configuration=ci
+      run: npm run e2e
       
   backend-build:
     runs-on: ubuntu-latest
