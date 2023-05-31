@@ -17,6 +17,13 @@ spec:
           image: arpithayuktapriti/springboot-app:latest
           ports:
             - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://localhost/postgres
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: 19971995
           readinessProbe:
             httpGet:
               path: /actuator/health
