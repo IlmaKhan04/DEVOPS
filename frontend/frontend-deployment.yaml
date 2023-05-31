@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: arpithayuktapriti/springboot-app:latest
+          image: arpithayuktapriti/angular-app:latest
           ports:
             - containerPort: 80
           readinessProbe:
