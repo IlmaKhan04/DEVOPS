@@ -1,55 +1,11 @@
-name: Full project build
-
+name: SonarCloud
 on:
   push:
     branches:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
-    branches:
-      - main
 jobs:
-  frontend-build:
-     
-     # Machine environment:
-    # https://help.github.com/en/articles/software-in-virtual-environments-for-github-actions#ubuntu-1804-lts
-    # We specify the Node.js version manually below, and use versioned Chrome from Puppeteer.
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js 19.6.0
-      uses: actions/setup-node@v1
-      with:
-        node-version: 19.6.0
-    - name: Install dependencies
-      working-directory: frontend
-      run: npm install
-    - name: Build
-      working-directory: frontend
-      run: npm run build -- --prod
-      
-  backend-build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-
-      - name: Build with Maven
-        working-directory: backend
-        run: mvn clean install
-
-      - name: Run tests
-        working-directory: backend
-        run: mvn test
- 
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
@@ -57,10 +13,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 11
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: 11
+          java-version: 17
           distribution: 'zulu' # Alternative distribution options are available.
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
@@ -75,8 +31,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and analyze
-        working-directory: backend
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=2022sp93056_devOps-assignment
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=IlmaKhan04_DEVOPS
